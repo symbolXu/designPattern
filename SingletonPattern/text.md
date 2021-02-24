@@ -5,7 +5,7 @@ function Coder{};
 const coder1 = new Coder();
 const coder2 = new Coder();
 ```
-在代码中实例化了两个Coder，通常情况下我们比较coder1和coder2是否相等，由于他们是两个不同的实例所以是false。如果我们想让coder1 === coder2 为true这时候就要用到单例模式了。
+在代码中实例化了两个Coder，通常情况下我们比较coder1和coder2是否相等时，由于他们是两个不同的实例所以是false。如果我们想让coder1 === coder2 为true这时候就要用到单例模式了。
 
 ### 2、单例模式实现原理
 ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor或者静态方法实现单例模式。
