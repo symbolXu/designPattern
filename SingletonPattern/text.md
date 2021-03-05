@@ -1,11 +1,11 @@
 ### 1、什么是单例模式  
-单例模式顾名思义就是一个类只有一个实例。它属于设计模式的创建型模式，在很多框架中都有应用，例如JQ，vuex，redux等。本文将从单例模式原理与实践入手，带你了解到主流框架中单例模式的应用;在随后的章节策略模式中，带你使用单例模式实现单例模式与策略模式的组合使用。请看如下代码:  
+单例模式顾名思义就是一个类只有一个实例。它属于设计模式的创建型模式，在很多框架中都有应用，例如JQ，vuex，redux等。本文将从单例模式原理与实践入手，带你了解到主流框架中单例模式的应用;在随后的章节策略模式中，带你使用单例模式实现单例模式与策略模式的组合使用。请看如下代码:
 ```javaScript
 function Coder{};
 const coder1 = new Coder();
 const coder2 = new Coder();
 ```
-在代码中实例化了两个Coder，通常情况下我们比较coder1和coder2是否相等时，由于他们是两个不同的实例所以是false。而在单例模式下coder1 === coder2 为true。是不是很神奇。
+在代码中实例化了两个Coder，通常情况下我们比较coder1和coder2是否相等时，由于他们是两个不同的实例所以是false。而在单例模式下coder1 === coder2 为true,是不是很神奇。
 
 ### 2、单例模式实现原理
 ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor或者静态方法实现单例模式。
@@ -39,9 +39,7 @@ ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor
                 return example;
               }
     })()
-    ```
-    下面我们进行一下测试：
-    ```javaScript
+
     var a = Singleton.createSingleton(1)
     var b = Singleton.createSingleton(2)
     a.getNo() //1
@@ -66,9 +64,7 @@ ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor
         return example;
       }
     })()
-    ```
-    下面我们进行一下测试
-    ```javaScript
+
     var a = new Singleton(1)
     var b = new Singleton(2)
     a.getNo() //1
@@ -101,9 +97,7 @@ ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor
           return Singleton.example
         }
       }
-      ```
-      下面测试下代码
-      ```javaScript
+
       var a = new Singleton(1)
       var b = new Singleton(2)
       a === b  //true
@@ -124,14 +118,54 @@ ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor
           return this.example;
         }
       }
-      ```
-      下面测试下代码
-      ```javaScript
+
       var a = Singleton.createSingleton(1)
       var b = Singleton.createSingleton(2)
       a === b  //true
       ```
+  * #### 单例模式组合[代理模式]()+[工厂模式]()
+    通过单例模式组合代理模式，我们再编写单例的构造函数是就不需要使用构造函数管理单例。而是通过代理的函数对单例进行管理，更加符合单一职责原则。
+    ```javascript
+    // 存放实例的对象
+    const singObj = Object.create(null);
+    // 编写帮我们实现单例的代理函数，函数接受的是一个构造函数
+    function AgentSingleton(constructor) {
+      // 我们需要一个对象帮我们存储构造好的实例，需要把constructor的name取出来做对象的key
+      let name = constructor.name;
+      return function() {
+        // 有就返回，没有就创建
+        if(!singObj[name]){
+            singObj[name] = new constructor(...arguments)
+        }
+        return singObj[name]
+      }
+    }
 
+    // 编写一个普通的构造函数
+    function SingletonTest1(no){
+      this.no = no;
+    }
+    SingletonTest1.prototype.getNo = function(){
+      console.log(this.no);
+    };
+
+    // 编写一个普通的构造函数
+    function SingletonTest2(no){
+      this.no = no;
+    }
+    SingletonTest2.prototype.getNo = function(){
+      console.log(this.no);
+    };
+
+    // 使用代理对象创建单例
+    var a = AgentSingleton(SingletonTest1)(1)
+    var b = AgentSingleton(SingletonTest1)(2)
+    var c = AgentSingleton(SingletonTest2)(1)
+    var d = AgentSingleton(SingletonTest2)(2)
+    a === b  //true
+    b === c  //false
+    c === d  //true
+    ```
 ### 4、单例模式的作用
   * 模块间通信
   * 系统中某个对象的实例只能存在一个
