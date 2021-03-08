@@ -190,7 +190,24 @@ ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor
     b === c;  //false
     c === d;  //true
     ```
-### 4、单例模式的作用
-  * 模块间通信
+### 4、单例模式在框架中的应用
+ 由于js这门语言的特殊性，所以并不适合完全的照搬类继承语言的设计模式，所以很多时候js把全局的对象当作单例来使用，vuex就是使用了这种方式。
+    ```javascript
+    let Vue // bind on install
+    ...
+    export function install (_Vue) {
+     if (Vue && _Vue === Vue) {
+       if (__DEV__) {
+         console.error(
+           '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+         )
+       }
+       return
+     }
+     Vue = _Vue
+     ...
+    }
+    ```
+  * 模块间的通信
   * 系统中某个对象的实例只能存在一个
   * 保护自己的属性和方法
