@@ -124,7 +124,7 @@ ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor
       var b = Singleton.createSingleton(2);
       a === b;  //true
       ```
-  * #### 单例模式组合+[代理模式]()
+  * #### 单例模式组合[代理模式]()
     ```javascript
     // 编写一个普通的构造函数
     function Singleton(no){
@@ -148,7 +148,7 @@ ES5我们可以通过闭包实现单例模式；ES6我们可以通过constructor
     var b = new proxySingleton(2);
     a === b;  //true
     ```
-  * #### 单例模式组合+[工厂模式]()
+  * #### 单例模式组合[工厂模式]()
     ```javascript
     // 存放实例的对象
     const singObj = Object.create(null);
