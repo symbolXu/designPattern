@@ -44,23 +44,22 @@ const shop = {
 ```javaScript
 const xu = {
   goShopping(){
-    console.log(ayi.help([{name:'西红柿',money:5}]))
+    console.log(ayi.help([{name:'西红柿',money:5},{name:'西葫芦',money:2},{name:'黄瓜',money:1},{name:'菜花',money:9}]))
   }
 }
 const ayi = {
   help(detailed){
-    let str = '买了'
-    let str1 = ''
+    let goodDish = []
+    let badDish = []
     let arr = shop.toSell(detailed)
     arr.forEach(item => {
       if(item.flag = 'good'){
-        str += `${item.money}块钱的${item.name},`
+        goodDish.push(item)
       }else{
-        str1 += `${item.name}、`
+        badDish.push(item)
       }
     })
-    str1[str1.length-1] = '坏了'
-    return `${str}${str1}`
+    return `${goodDish.join()}是好的菜，${badDish.join()}坏了`
   }
 }
 const shop = {
@@ -76,6 +75,45 @@ const shop = {
   }
 }
 ```
-阿姨帮我们过滤掉了坏的菜，这时候这种代理叫做保护代理。古人三省吾身，今人三幸吃啥，我们告诉阿姨，菜你看着买吧，我们把费脑子的问题交给了阿姨，这时候实现的代理叫做虚拟代理。
+阿姨帮我们过滤掉了坏的菜，这时候这种代理叫做保护代理。
+古人三省其身，今人三省吃啥，我们告诉阿姨，菜你看着买吧。
+```javaScript
+const xu = {
+  goShopping(){
+    console.log(ayi.help())
+  }
+}
+const ayi = {
+  think(){
+    return [{name:'西红柿',money:5},{name:'西葫芦',money:2},{name:'黄瓜',money:1},{name:'菜花',money:9}]
+  },
+  help(){
+    let goodDish = []
+    let badDish = []
+    let arr = shop.toSell(this.think())
+    arr.forEach(item => {
+      if(item.flag = 'good'){
+        goodDish.push(item.name)
+      }else{
+        badDish.push(item.name)
+      }
+    })
+    return `${goodDish.join()}是好的菜，${badDish.join()}坏了`
+  }
+}
+const shop = {
+  toSell(detailed){
+    detailed.forEach((item,index) => {
+      if(index%3 ===0){
+        item.flag = 'bad'
+      }else{
+        item.flag = 'good'
+      }
+    })
+    return detailed
+  }
+}
+```
+我们把费脑子的问题交给了阿姨，这时候实现的代理叫做虚拟代理。
 
 ### 4、单例模式在框架中的应用
